@@ -1,0 +1,74 @@
+<div class="container py-5">
+    <h2>All requests</h2>
+    <div class="m-auto">
+        <form [formGroup]="filterForm">
+            <strong>FILTERS</strong>
+            <mat-form-field appearance="outline" class="ml-5">
+                <mat-label>Recherche</mat-label>
+                <input matInput formControlName="search">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="ml-3">
+                <mat-label>- Brand -</mat-label>
+                <mat-select formControlName="brandId">
+                    <mat-option value="">Tous </mat-option>
+                    <mat-option *ngFor="let brand of brandsList" [value]="brand.brandId">{{ brand.name }} </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button class="float-right mt-3" color="accent" mat-flat-button type="button" (click)="filterRequests()">Filter</button>
+        </form>
+    </div>
+    <div class="row px-4 py-2 ">
+        <div class="col-2">Status</div>
+        <div class="col-3">Name</div>
+        <div class="col-2">Type</div>
+        <div class="col-2">Brand</div>
+        <div class="col-2 text-center">Submission</div>
+        <div class="col-1 "></div>
+    </div>
+    <div class="accordions">
+        <div class="accordion-item " *ngFor="let request of RequestsList">
+            <div role="tab" class="accordion-header">
+                <button type="button" class="accordion-button">
+          <div class="row w-100 py-2 align-items-center">
+            <div class="col-2 border-end d-grid">
+              <ng-container *ngIf="request.requestStatus.value!=='Validated' && request.requestStatus.value!=='Rejected'">
+                <mat-icon class="m-auto">{{request.requestStatus.value=='Draft'?'description':'hourglass_empty'}}</mat-icon>
+                <span class="text-center ">{{request.requestStatus.value}}</span>
+              </ng-container>
+              <ng-container *ngIf="request.requestStatus.value=='Validated'">
+                <mat-icon class="m-auto status-valid">highlight_off</mat-icon>
+                <span class="text-center status-valid">{{request.requestStatus.value}}</span>
+              </ng-container>
+              <ng-container *ngIf="request.requestStatus.value=='Rejected'">
+                <mat-icon class="m-auto status-rejected">check_circle_outline</mat-icon>
+                <span class="text-center status-rejected">{{request.requestStatus.value}}</span>
+              </ng-container>
+            </div>
+            <div class="col-3">{{request?.campaignName}}</div>
+            <div class="col-2">
+              <span *ngIf="request?.advice" class="badge bg-danger text-white">{{"Advice"}}</span>
+              <span *ngIf="!request?.advice" class="badge bg-secondary">{{"Request"}}</span>
+
+            </div>
+            <div class="col-2 fs-5">{{request?.brand?.name}}</div>
+            <div class="col-2 text-center">
+
+              <span class="text-center" *ngIf="request.submittedDate"> {{request.submittedDate | date: 'dd/MM/yyyy'}}</span>
+              <span class="text-center" *ngIf="!request.submittedDate"> --- </span>
+            </div>
+            <div class="col-1">
+              <button mat-icon-button type="button" (click)="openDialogRequest(request,dialogRequest)">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+              </button>
+            </div>
+        </div>
+        </button>
+    </div>
+</div>
+</div>
+</div>
+
+
+<ng-template #dialogRequest>
+    <app-request *ngIf="selectedDataRequest" [selectedDataRequest]="selectedDataRequest" [brandsList]="brandsList" (actionRequest)="editRequest($event)"></app-request>
+</ng-template>

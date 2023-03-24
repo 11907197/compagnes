@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use "@angular/material" as mat;
+@import "./src/assets/styles/_class";
+@import "./src/assets/styles/theme";
+
+/* Importing Bootstrap SCSS file. */
+
+@import '~bootstrap/scss/bootstrap';
+// Theme Init
+@include mat.all-component-themes($compagnes-theme);
+// Theme Dark
+.theme-dark {
+    @include mat.all-component-themes($compagnes-dark-theme);
+}
+
+.request-row {
+    padding: 5px 20px;
+    background: rgb(225, 246, 251);
+    margin: 20px 0;
+    border-top: 1px solid #dfe3e7;
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+}
+
+.accordions {
+    .accordion-button {
+        padding: 5px 20px;
+        background: rgb(225, 246, 251);
+    }
+    .accordion-item {
+        margin: 20px 0;
+    }
+    .accordion-item:not(:first-of-type) {
+        border-top: 1px solid #dfe3e7;
+    }
+    .accordion-item:last-of-type {
+        border-bottom-right-radius: unset;
+        border-bottom-left-radius: unset;
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+.spacer {
+    width: 100%;
+}
